@@ -1,5 +1,5 @@
 const myLibrary = []; 
-
+const content = document.querySelector(".content"); 
 function Book(title, author, pages, read) { 
   if (!new.target) { 
     throw Error("You must use the 'new' operator to call the constructor"); 
@@ -25,6 +25,42 @@ function addBookToLibrary(title, author, pages, read) {
 } 
 
 Object.setPrototypeOf(addBookToLibrary.prototype, Book.prototype); 
+
+function appendBook(myLibrary) {
+   for (const book of myLibrary) { 
+    const id = `#${book.id}`; 
+    const safeID = CSS.escape(id); 
+
+    if (document.querySelector(safeID) !== null) { 
+      alert('book exists');
+    }
+    else {
+    //create elements 
+    const card = document.createElement("div");
+    card.classList.add("card"); 
+    const cardTitle = document.createElement("h2"); 
+    const cardAuthor = document.createElement("p");
+    const cardPages = document.createElement("p"); 
+    const cardBtn = document.createElement("button"); 
+    cardBtn.textContent = "Delete"; 
+    
+    //provide content
+    cardTitle.textContent = book.title; 
+    cardAuthor.textContent = book.author; 
+    cardPages.textContent = book.pages; 
+    card.id = book.id; 
+    
+    // add to page
+    content.appendChild(card); 
+    card.appendChild(cardTitle); 
+    card.appendChild(cardAuthor); 
+    card.appendChild(cardPages); 
+    card.appendChild(cardBtn); 
+  }
+}
+}
+
+Object.setPrototypeOf(appendBook.prototype, addBookToLibrary.prototype); 
 
 
 

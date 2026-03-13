@@ -3,13 +3,13 @@
   * padding: 0;
   * font-size: 14px; 
   * line-height: 1.5;  
+  * background: #DEDEDE; 
   }
 
 .main { 
   display: grid; 
   grid-template-columns: 1fr 2fr 1fr; 
   grid-template-rows: 0.5fr repeat(4, 2fr); 
-  height: 100vh; 
   width: 100vw;
   margin:0;  
   background: #DEDEDE; 
@@ -18,12 +18,13 @@
 
 .content { 
   display: grid; 
-  grid-template-columns: 1fr 1fr; 
-  grid-template-rows: 2fr auto; 
+  grid-template-columns: 1fr 1fr;  
+  grid-template-rows: repeat(10, 2fr) auto; 
   grid-row: 2 / 6; 
   grid-column: 2 / 3;
   padding: 1rem;  
   background: #F2F0EF;  
+  overflow-y: auto;  
 }
 
 .header { 
@@ -38,19 +39,24 @@
 } 
 
 #btnAddBook { 
-  width: 20%; 
+  width: clamp(102px, 20%, 150px); 
   padding: 0.5rem; 
   font-size: 1rem; 
   font-weight: 500; 
-  border-radius: 0.75rem; 
+  border-radius: 0.75rem;
+  box-shadow: 5px 2px 2px #DEDEDE; 
+  background: #DEDEDE;  
 } 
 
 .card { 
   border: 1px solid black; 
   border-right: 4px solid blue; 
   border-radius: 1rem; 
+  background: #DEDEDE; 
   margin: 1rem; 
-  padding: 0.5rem; 
-  height: 180px; 
+  padding: 1rem; 
+  height: clamp(150px, 20vh, 200px);
   font-weight: 700; 
-} 
+  box-shadow: 10px 5px 5px #DEDEDE;
+}
+
