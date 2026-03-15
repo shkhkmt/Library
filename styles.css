@@ -49,6 +49,9 @@
 } 
 
 .card { 
+  display: flex; 
+  flex-direction: column; 
+  justify-content: space-between; 
   border: 1px solid black; 
   border-right: 4px solid blue; 
   border-radius: 1rem; 
@@ -60,3 +63,17 @@
   box-shadow: 10px 5px 5px #DEDEDE;
 }
 
+.card > * { 
+  display: flex; 
+  flex-direction: row; 
+  padding: clamp(2px, 0.25rem, 3px); 
+  margin: 0; 
+} 
+
+.card > button { 
+  width: 20%; 
+} 
+
+.card > h2 { 
+  font-size: clamp(1rem, 1.5rem, 3rem); 
+} 

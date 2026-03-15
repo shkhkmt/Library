@@ -1,5 +1,6 @@
 const myLibrary = []; 
 const content = document.querySelector(".content"); 
+
 function Book(title, author, pages, read) { 
   if (!new.target) { 
     throw Error("You must use the 'new' operator to call the constructor"); 
@@ -8,7 +9,7 @@ function Book(title, author, pages, read) {
   this.author = author; 
   this.pages = pages; 
   this.read = read === 'read';
-  this.id = crypto.randomUUID(); 
+  this.id = CSS.escape(crypto.randomUUID()); 
   this.info = function() { 
    return `${this.title} by ${this.author}, ${this.pages} pages, ${this.read}`; 
   }; 
@@ -27,13 +28,13 @@ function addBookToLibrary(title, author, pages, read) {
 Object.setPrototypeOf(addBookToLibrary.prototype, Book.prototype); 
 
 function appendBook(myLibrary) {
-   for (const book of myLibrary) { 
-    const id = `#${book.id}`; 
-    const safeID = CSS.escape(id); 
+   for (let i=0; i < myLibrary.length; i++) {  
+    let id = document.querySelector(myLibrary[i].id); 
 
-    if (document.querySelector(safeID) !== null) { 
-      alert('book exists');
+    if (document.getElementById(myLibrary[i].id) !== null) { 
+       console.log(`Title: '${myLibrary[i].title}' exists`);  
     }
+
     else {
     //create elements 
     const card = document.createElement("div");
@@ -45,10 +46,10 @@ function appendBook(myLibrary) {
     cardBtn.textContent = "Delete"; 
     
     //provide content
-    cardTitle.textContent = book.title; 
-    cardAuthor.textContent = book.author; 
-    cardPages.textContent = book.pages; 
-    card.id = book.id; 
+    cardTitle.textContent = myLibrary[i].title; 
+    cardAuthor.textContent = myLibrary[i].author; 
+    cardPages.textContent = myLibrary[i].pages; 
+    card.id = myLibrary[i].id; 
     
     // add to page
     content.appendChild(card); 
