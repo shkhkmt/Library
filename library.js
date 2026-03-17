@@ -43,6 +43,8 @@ function appendBook(myLibrary) {
     const cardAuthor = document.createElement("p");
     const cardPages = document.createElement("p"); 
     const cardBtn = document.createElement("button"); 
+    const readBtn = document.createElement("button"); 
+    const btnDiv = document.createElement("div"); 
     cardBtn.textContent = "Delete"; 
     
     //provide content
@@ -50,13 +52,25 @@ function appendBook(myLibrary) {
     cardAuthor.textContent = myLibrary[i].author; 
     cardPages.textContent = myLibrary[i].pages; 
     card.id = myLibrary[i].id; 
-    
+ 
+      if (myLibrary[i].read === true) { 
+       readBtn.textContent = "Read"; 
+       card.style.borderRight = "4px solid blue"; 
+     } else if (myLibrary[i].read === false) { 
+       readBtn.textContent = "Not Read";
+       card.style.borderRight = "4px solid red"; 
+     }
+
+   
     // add to page
     content.appendChild(card); 
     card.appendChild(cardTitle); 
     card.appendChild(cardAuthor); 
     card.appendChild(cardPages); 
-    card.appendChild(cardBtn); 
+    card.appendChild(btnDiv);
+    btnDiv.appendChild(cardBtn); 
+    btnDiv.appendChild(readBtn); 
+    
   }
 }
 }

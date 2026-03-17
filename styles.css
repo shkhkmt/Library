@@ -68,6 +68,7 @@
   flex-direction: row; 
   padding: clamp(2px, 0.25rem, 3px); 
   margin: 0; 
+  justify-content: space-between; 
 } 
 
 .card > button { 
@@ -76,4 +77,24 @@
 
 .card > h2 { 
   font-size: clamp(1rem, 1.5rem, 3rem); 
+}
+
+dialog > div { 
+  display: flex; 
+  flex-direction: row; 
+  justify-content: space-between; 
+  margin: 1rem; 
+  padding: 0.2rem; 
+  gap: 0.5rem; 
 } 
+
+dialog > div:nth-child(4) { 
+  gap: 1.6rem; 
+  justify-content: start; 
+} 
+
+dialog > button { 
+  margin: 1rem; 
+  padding: 0.2rem; 
+} 
+
