@@ -79,6 +79,12 @@
   font-size: clamp(1rem, 1.5rem, 3rem); 
 }
 
+dialog { 
+  width: 40%; 
+  max-width: 300px; 
+  margin: auto; 
+} 
+
 dialog > div { 
   display: flex; 
   flex-direction: row; 
@@ -90,7 +96,6 @@ dialog > div {
 
 dialog > div:nth-child(4) { 
   gap: 1.6rem; 
-  justify-content: start; 
 } 
 
 dialog > button { 

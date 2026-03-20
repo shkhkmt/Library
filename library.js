@@ -77,7 +77,26 @@ function appendBook(myLibrary) {
 
 Object.setPrototypeOf(appendBook.prototype, addBookToLibrary.prototype); 
 
+const dialog = document.getElementById("#addBook"); 
+const add = document.getElementById("#newBook"); 
+const header = document.querySelector(".header"); 
 
+function handleNewBook(event) { 
+  let target = event.target; 
+  const title = document.querySelector("#title"); 
+  const author = document.querySelector("#author"); 
+  const pages = document.querySelector("#pages"); 
+  const read = document.querySelector("#read"); 
+  const form = document.querySelector("#bookForm"); 
+
+  if (event.target.id === 'newBook') { 
+    addBookToLibrary(title.value, author.value, pages.value, read.value);    
+    appendBook(myLibrary); 
+    form.reset(); 
+  }
+} 
+
+header.addEventListener('click', handleNewBook); 
 
 // const book1 = new Book("Javascipt, The Difinitive Guide", "David Flanagan", 1068, "read"); 
 
