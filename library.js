@@ -42,19 +42,23 @@ function appendBook(myLibrary) {
     const cardTitle = document.createElement("h2"); 
     const cardAuthor = document.createElement("p");
     const cardPages = document.createElement("p"); 
-    const cardBtn = document.createElement("button"); 
+    const deleteBtn = document.createElement("button"); 
     const readBtn = document.createElement("button"); 
     const btnDiv = document.createElement("div"); 
-    cardBtn.textContent = "Delete"; 
-    
+    deleteBtn.textContent = "Delete";
+    deleteBtn.classList.add("deleteBtn"); 
+    deleteBtn.id = `book${myLibrary[i].id}`; 
+    readBtn.classList.add("readBtn"); 
+       
     //provide content
     cardTitle.textContent = myLibrary[i].title; 
     cardAuthor.textContent = myLibrary[i].author; 
     cardPages.textContent = myLibrary[i].pages; 
     card.id = myLibrary[i].id; 
+    deleteBtn.id = `Book${myLibrary[i].id}`; 
  
       if (myLibrary[i].read === true) { 
-       readBtn.textContent = "Read"; 
+       readBtn.textContent = "Read";
        card.style.borderRight = "4px solid blue"; 
      } else if (myLibrary[i].read === false) { 
        readBtn.textContent = "Not Read";
@@ -68,27 +72,29 @@ function appendBook(myLibrary) {
     card.appendChild(cardAuthor); 
     card.appendChild(cardPages); 
     card.appendChild(btnDiv);
-    btnDiv.appendChild(cardBtn); 
+    btnDiv.appendChild(deleteBtn); 
     btnDiv.appendChild(readBtn); 
     
   }
 }
 }
 
+
 Object.setPrototypeOf(appendBook.prototype, addBookToLibrary.prototype); 
 
 const dialog = document.getElementById("#addBook"); 
 const add = document.getElementById("#newBook"); 
 const header = document.querySelector(".header"); 
+const title = document.querySelector("#title"); 
+const author = document.querySelector("#author"); 
+const pages = document.querySelector("#pages"); 
+const read = document.querySelector("#read"); 
+const form = document.querySelector("#bookForm"); 
+
+
 
 function handleNewBook(event) { 
   let target = event.target; 
-  const title = document.querySelector("#title"); 
-  const author = document.querySelector("#author"); 
-  const pages = document.querySelector("#pages"); 
-  const read = document.querySelector("#read"); 
-  const form = document.querySelector("#bookForm"); 
-
   if (event.target.id === 'newBook') { 
     addBookToLibrary(title.value, author.value, pages.value, read.value);    
     appendBook(myLibrary); 
@@ -96,7 +102,30 @@ function handleNewBook(event) {
   }
 } 
 
+function deleteBook(event) { 
+  const grandparent = event.target.closest(".card"); 
+  const targetBook = grandparent.id; 
+  const targetIndex = myLibrary.findIndex(myLibrary => myLibrary.id === targetBook); 
+  
+  if (targetIndex !== -1 && document.querySelector(".deleteBtn") !== null) { 
+    myLibrary.splice(targetIndex, 1); 
+    grandparent.remove(); 
+  }  
+}
+
+function toggleRead(event) { 
+  const grandparent = event.target.closest(".card"); 
+  const targetBook = grandparent.id; 
+  const targetIndex = myLibrary.findIndex(myLibrary => myLibrary.id === targetBook); 
+  
+  if (targetIndex !== -1 && document.querySelector(`book${targetBook}`) !== null)  { 
+    myLibrary[targetIndex].toggleRead();
+  }
+}
+
 header.addEventListener('click', handleNewBook); 
+
+content.addEventListener('click', deleteBook); 
 
 // const book1 = new Book("Javascipt, The Difinitive Guide", "David Flanagan", 1068, "read"); 
 
