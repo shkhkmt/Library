@@ -8,7 +8,7 @@ function Book(title, author, pages, read) {
   this.title = title; 
   this.author = author; 
   this.pages = pages; 
-  this.read = read === 'read';
+  this.read = read;
   this.id = CSS.escape(crypto.randomUUID()); 
   this.info = function() { 
    return `${this.title} by ${this.author}, ${this.pages} pages, ${this.read}`; 
@@ -20,7 +20,17 @@ Book.prototype.toggleRead = function() {
 } 
 
 function addBookToLibrary(title, author, pages, read) { 
-  const newBook = new Book(title, author, pages, read); 
+  const thisRead = document.querySelector("#read"); 
+  let readValue;
+
+  if (thisRead.checked) { 
+    readValue = true; 
+  } else { 
+    readValue = false; 
+  }
+
+  console.log(readValue); 
+  const newBook = new Book(title, author, pages, readValue); 
 
   myLibrary.push(newBook); 
 } 
@@ -47,15 +57,14 @@ function appendBook(myLibrary) {
     const btnDiv = document.createElement("div"); 
     deleteBtn.textContent = "Delete";
     deleteBtn.classList.add("deleteBtn"); 
-    deleteBtn.id = `book${myLibrary[i].id}`; 
     readBtn.classList.add("readBtn"); 
-       
+    readBtn.id = `btn${myLibrary[i].id}`; 
+
     //provide content
     cardTitle.textContent = myLibrary[i].title; 
     cardAuthor.textContent = myLibrary[i].author; 
     cardPages.textContent = myLibrary[i].pages; 
     card.id = myLibrary[i].id; 
-    deleteBtn.id = `Book${myLibrary[i].id}`; 
  
       if (myLibrary[i].read === true) { 
        readBtn.textContent = "Read";
@@ -94,7 +103,6 @@ const form = document.querySelector("#bookForm");
 
 
 function handleNewBook(event) { 
-  let target = event.target; 
   if (event.target.id === 'newBook') { 
     addBookToLibrary(title.value, author.value, pages.value, read.value);    
     appendBook(myLibrary); 
@@ -106,10 +114,11 @@ function deleteBook(event) {
   const grandparent = event.target.closest(".card"); 
   const targetBook = grandparent.id; 
   const targetIndex = myLibrary.findIndex(myLibrary => myLibrary.id === targetBook); 
-  
-  if (targetIndex !== -1 && document.querySelector(".deleteBtn") !== null) { 
+  console.log(targetIndex);  
+  if (targetIndex !== -1 && event.target.className === "deleteBtn") { 
     myLibrary.splice(targetIndex, 1); 
     grandparent.remove(); 
+    console.log(event.target.id); 
   }  
 }
 
@@ -117,15 +126,31 @@ function toggleRead(event) {
   const grandparent = event.target.closest(".card"); 
   const targetBook = grandparent.id; 
   const targetIndex = myLibrary.findIndex(myLibrary => myLibrary.id === targetBook); 
+  const currentCard = document.querySelector(`#${targetBook}`); 
+  const btnDiv =  event.target.closest(".readBtn"); 
+  console.log(btnDiv); 
+  console.log(`btn${targetBook}`); 
+  console.log(`#${currentCard}`);
+  console.log(grandparent.id); 
   
-  if (targetIndex !== -1 && document.querySelector(`book${targetBook}`) !== null)  { 
+  if (targetIndex !== -1 && event.target.className === "readBtn") {
     myLibrary[targetIndex].toggleRead();
-  }
+    console.log(myLibrary[targetIndex].read); 
+    if (myLibrary[targetIndex].read === false) { 
+      grandparent.style.borderRight = "4px solid red"; 
+      btnDiv.textContent = "Not Read"; 
+    } else {
+      grandparent.style.borderRight = "4px solid blue"; 
+      btnDiv.textContent = "Read"; 
+    }
+  } 
 }
 
 header.addEventListener('click', handleNewBook); 
 
 content.addEventListener('click', deleteBook); 
+
+content.addEventListener('click', toggleRead); 
 
 // const book1 = new Book("Javascipt, The Difinitive Guide", "David Flanagan", 1068, "read"); 
 
