@@ -11,9 +11,9 @@
   grid-template-columns: 1fr 2fr 1fr; 
   grid-template-rows: 0.5fr repeat(4, 2fr); 
   width: 100vw;
+  height: 100vh; 
   margin:0;  
   background: #DEDEDE; 
-  position: absolute; 
 }
 
 .content { 

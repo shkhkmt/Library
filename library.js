@@ -44,8 +44,8 @@ function appendBook(myLibrary) {
     if (document.getElementById(myLibrary[i].id) !== null) { 
        console.log(`Title: '${myLibrary[i].title}' exists`);  
     }
-
     else {
+
     //create elements 
     const card = document.createElement("div");
     card.classList.add("card"); 
