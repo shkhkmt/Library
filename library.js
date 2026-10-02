@@ -1,37 +1,45 @@
 'use strict' 
 
 const myLibrary = []; 
+const letters = "abcdefghijklmnopqrstuvwxyz" 
 const content = document.querySelector(".content"); 
 
 class Book {
   constructor(title, author, pages, read) {
     if (!new.target) { 
-    throw Error("You must use the 'new' operator to call the constructor"); 
+      throw Error("You must use the 'new' operator to call the constructor"); 
     }
     this.title = title; 
     this.author = author; 
     this.pages = pages + ' pages'; 
-    this.read = read; 
-    this.id = CSS.escape(crypto.randomUUID()); 
-    this.info = () => console.log(`${this.title} by ${this.author}, ${this.pages} pages, ${this.read}`); 
-  } 
+    this.read = (() => { 
+      if (read === 'read') return true;  
+      if (read === null) return false; 
+      })();
+
+    this.id = (() => {
+      return Array.from({length: 5}, () => letters[Math.floor(Math.random() * letters.length)]).join(''); 
+    })();
+            
+    this.info = function() {
+      return `${this.title} by ${this.author}, ${this.pages} pages, ${this.read}`; 
+    };
+  }
 
   toggleRead() { 
-    this.read = !this.read; 
-  }
-}
+    this.read = !this.read;
+  } 
 
-
-function addBookToLibrary(title, author, pages, read) {
-    const newBook = new Book(title, author, pages, read); 
-    myLibrary.push(newBook);
+  addBookToLibrary(array) {
+    myLibrary.push(array); 
+  } 
 }
 
 
 function appendBook() {
-  for (let i=0; i < myLibrary.length; i++) {  
-    let id = document.querySelector(myLibrary[i].id); 
-    if (id !== null) { 
+  for (let i=0; i < myLibrary.length; i++) { 
+
+    if (document.getElementById(myLibrary[i].id) !== null) { 
       console.log(`Title: '${myLibrary[i].title}' exists`);  
     }
     else {
@@ -48,7 +56,7 @@ function appendBook() {
       deleteBtn.textContent = "Delete";
       deleteBtn.classList.add("deleteBtn"); 
       readBtn.classList.add("readBtn"); 
-      readBtn.id = `btn${myLibrary[i].id}`; 
+      readBtn.id = `btn${i+1}`;  
 
         //provide content
         cardTitle.textContent = myLibrary[i].title; 
@@ -88,24 +96,24 @@ class Button {
       const author = formData.get('author'); 
       const pages = formData.get('pages'); 
       const read = formData.get('read');
-
-      addBookToLibrary(title, author, pages, read); 
+      const bookAdded = new Book (title, author, pages, read);
+      
+      bookAdded.addBookToLibrary(bookAdded); 
       form.reset(); 
-
+      console.log(myLibrary); 
       appendBook(); 
     }
   }
 
   deleteBook(event) { 
     const grandparent = event.target.closest(".card"); 
-    const targetBook = grandparent.id; 
-    const targetIndex = myLibrary.findIndex(myLibrary => myLibrary.id === targetBook); 
-    console.log(targetIndex);  
+     
     
-    if (targetIndex !== -1 && event.target.className === "deleteBtn") { 
-      myLibrary.splice(targetIndex, 1); 
-      grandparent.remove(); 
-      console.log(event.target.id); 
+    for (let i=0; i < myLibrary.length; i++) { 
+      if (grandparent.id === myLibrary[i].id && event.target.className === "deleteBtn") { 
+        myLibrary.splice(i, 1); 
+        grandparent.remove(); 
+      }
     }
   }
 
@@ -116,11 +124,11 @@ class Button {
   const currentCard = document.querySelector(`#${targetBook}`); 
   const btnDiv =  event.target.closest(".readBtn"); 
   console.log(btnDiv); 
-  console.log(`btn${targetBook}`); 
+  console.log(`${targetBook}`); 
   console.log(`#${currentCard}`);
   console.log(grandparent.id); 
   
-  if (targetIndex !== -1 && event.target.className === "readBtn") {
+  if (targetIndex !== null && event.target.className === "readBtn") {
     myLibrary[targetIndex].toggleRead();
     console.log(myLibrary[targetIndex].read); 
     if (myLibrary[targetIndex].read === false) { 
