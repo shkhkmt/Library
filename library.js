@@ -40,7 +40,7 @@ function appendBook() {
   for (let i=0; i < myLibrary.length; i++) { 
 
     if (document.getElementById(myLibrary[i].id) !== null) { 
-      console.log(`Title: '${myLibrary[i].title}' exists`);  
+      alert(`Title: '${myLibrary[i].title}' exists`);  
     }
     else {
 
@@ -100,7 +100,6 @@ class Button {
       
       bookAdded.addBookToLibrary(bookAdded); 
       form.reset(); 
-      console.log(myLibrary); 
       appendBook(); 
     }
   }
@@ -123,14 +122,9 @@ class Button {
   const targetIndex = myLibrary.findIndex(myLibrary => myLibrary.id === targetBook); 
   const currentCard = document.querySelector(`#${targetBook}`); 
   const btnDiv =  event.target.closest(".readBtn"); 
-  console.log(btnDiv); 
-  console.log(`${targetBook}`); 
-  console.log(`#${currentCard}`);
-  console.log(grandparent.id); 
   
   if (targetIndex !== null && event.target.className === "readBtn") {
     myLibrary[targetIndex].toggleRead();
-    console.log(myLibrary[targetIndex].read); 
     if (myLibrary[targetIndex].read === false) { 
       grandparent.style.borderRight = "4px solid red"; 
       btnDiv.textContent = "Not Read"; 
